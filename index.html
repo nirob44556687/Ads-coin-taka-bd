@@ -4,164 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://adsgram.ai/js/adman.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
     <title>Golden Coin App</title>
     <style>
         html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden; font-family: sans-serif; }
-        body { touch-action: none; user-select: none; }
-        .score-display { font-size: 50px; position: absolute; color: yellow; animation: fadeOut 1s forwards; pointer-events: none; }
-        @keyframes fadeOut { to { opacity: 0; transform: translateY(-30px); } }
-        .shake { animation: shake 0.5s; }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); }
-        }
-        #snackbar { visibility: hidden; min-width: 250px; margin-left: -125px; background-color: rgb(15 23 42); color: #fff; text-align: center; border-radius: 24px; padding: 12px; position: fixed; z-index: 1000; left: 50%; bottom: 80px; }
-        #snackbar.show { visibility: visible; -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        .page { display: none; height: 100%; width: 100%; flex-direction: column; }
+        .page.active { display: flex; }
+        #snackbar { visibility: hidden; min-width: 250px; margin-left: -125px; background-color: #1e293b; color: #fff; text-align: center; border-radius: 24px; padding: 12px; position: fixed; z-index: 1000; left: 50%; bottom: 80px; }
+        #snackbar.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
         @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 80px; opacity: 1;} }
         @keyframes fadeout { from {bottom: 80px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-        .page { display: none; height: 100%; width: 100%; }
-        .page.active { display: flex; flex-direction: column; }
     </style>
 </head>
-<body class="bg-gradient-to-r from-[#0f0c29] to-[#24243e]">
-    
-    <div id="app-container" class="h-full w-full">
-        <div id="main-page" class="page active justify-center items-center p-3">
-            <div class="bg-gradient-to-r from-[#0f0c29] to-[#24243e] rounded-3xl shadow-2xl p-4 w-full h-full flex flex-col max-w-md text-white">
-                <div class="flex justify-between items-center mb-4 bg-slate-900/10 rounded-3xl shadow-xl p-2">
-                    <div class="flex items-center">
-                        <img src="https://html4herosimages.vercel.app/User%20Avatar.png" width="40px" height="40px" alt="User Avatar" class="rounded-full mr-2">
-                        <span id="userName">Bota</span>
-                    </div>
-                </div>
+<body class="bg-gradient-to-r from-[#0f0c29] to-[#24243e] text-white">
 
-                <div class="flex-grow flex flex-col justify-center">
-                    <div class="text-center mb-4 mt-8">
-                        <div class="text-4xl mb-2 flex justify-center items-center">
-                            <img src="https://html4herosimages.vercel.app/Main%20Coin%20Image.png" width="50px" height="50px" alt="Coin" class="inline-block mb-1">
-                            <span id="score" class="score font-bold text-4xl ml-2">$ 0</span>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-center mb-4 relative" id="coin-container">
-                        <img src="https://html4herosimages.vercel.app/Main%20Coin%20Image.png" width="80%" alt="Character" class="rounded-full clickable shadow-2xl" id="coin-img">
-                    </div>
-                </div>
-
-                <div class="mb-4">
-                    <div class="flex justify-between items-center mb-2 px-2 text-sm">
-                        <div class="flex items-center">
-                            <img src="https://html4herosimages.vercel.app/Energy%20Icon.png" class="mr-2 w-6 h-6">
-                            <span id="inventory">500</span> / <span id="max-inventory">500</span>
-                        </div>
-                    </div>
-                    <div class="bg-zinc-600 rounded-3xl h-2 w-full">
-                        <div id="inventory-fill" class="bg-gradient-to-r from-[#C7913D] to-[#F1D06E] h-2 rounded-3xl" style="width: 100%;"></div>
-                    </div>
-                </div>
-
-                <div class="flex justify-around bg-slate-900 p-4 rounded-3xl shadow-lg mt-auto">
-                    <button onclick="switchPage('main-page')" class="flex flex-col items-center">🏠<span class="text-xs">Mine</span></button>
-                    <button onclick="switchPage('boost-page')" class="flex flex-col items-center">🚀<span class="text-xs">Boost</span></button>
-                    <button onclick="switchPage('task-page')" class="flex flex-col items-center">📋<span class="text-xs">Task</span></button>
-                    <button onclick="switchPage('wallet-page')" class="flex flex-col items-center">💰<span class="text-xs">Wallet</span></button>
-                </div>
-            </div>
+    <div id="main-page" class="page active p-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-xl font-bold">Golden Coin</h1>
+            <div class="bg-slate-800 px-4 py-1 rounded-full text-yellow-400 font-bold" id="score-display">$ 0</div>
+        </div>
+        
+        <div class="flex-grow flex flex-col justify-center items-center">
+            <img src="https://html4herosimages.vercel.app/Main%20Coin%20Image.png" id="coin-img" class="w-64 h-64 cursor-pointer active:scale-95 transition-transform" alt="Coin">
+            <p class="mt-4 opacity-70">Tap to Earn</p>
         </div>
 
-        <div id="boost-page" class="page bg-[#0f0c29] text-white p-6 items-center">
-            <h2 class="text-2xl font-bold mb-8">Boosters</h2>
-            <div id="video-ad-btn" class="w-full bg-gradient-to-r from-yellow-600 to-yellow-800 p-5 rounded-2xl flex justify-between items-center shadow-lg cursor-pointer border border-yellow-500 mb-6">
-                <div class="flex items-center gap-3">
-                    <span class="text-2xl">📺</span>
-                    <div class="text-left">
-                        <p class="font-bold">Watch Video Ad</p>
-                        <p class="text-xs">+5,000 Coins Reward</p>
-                    </div>
-                </div>
-                <span class="bg-white text-black text-xs font-bold px-2 py-1 rounded">FREE</span>
-            </div>
-            <button onclick="switchPage('main-page')" class="mt-auto bg-slate-800 px-10 py-3 rounded-full">Back</button>
-        </div>
-
-        <div id="task-page" class="page bg-[#0f0c29] text-white p-6 flex items-center justify-center"><h2>Tasks Coming Soon</h2><button onclick="switchPage('main-page')" class="mt-4 bg-slate-800 px-6 py-2 rounded-full">Back</button></div>
-        <div id="wallet-page" class="page bg-[#0f0c29] text-white p-6 flex items-center justify-center"><h2>Wallet Coming Soon</h2><button onclick="switchPage('main-page')" class="mt-4 bg-slate-800 px-6 py-2 rounded-full">Back</button></div>
+        <button onclick="showPage('boost-page')" class="bg-yellow-600 w-full py-4 rounded-2xl font-bold mt-4">🚀 Go to Boosters</button>
     </div>
-    
+
+    <div id="boost-page" class="page p-6">
+        <h2 class="text-2xl font-bold mb-10 text-center">Boosters</h2>
+        <button id="ad-button" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-700 p-6 rounded-2xl flex justify-between items-center shadow-xl border border-yellow-400">
+            <span class="font-bold">📺 Watch Video Ad</span>
+            <span class="bg-black/20 px-3 py-1 rounded-lg">+5,000</span>
+        </button>
+        <button onclick="showPage('main-page')" class="mt-auto bg-slate-800 py-3 rounded-xl">Back to Game</button>
+    </div>
+
     <div id="snackbar"></div>
 
-<script>
-    // --- গেম লজিক ---
-    let state = {
-        coins: parseInt(localStorage.getItem('coins')) || 0,
-        inventory: 500,
-        maxInventory: 500
-    };
+    <script>
+        // আপনার গেম ডাটা
+        let coins = parseInt(localStorage.getItem('coins')) || 0;
 
-    // Adsgram Initialize (ID: 22538)
-    const AdController = window.Adsgram ? window.Adsgram.init({ blockId: "22538" }) : null;
+        // Adsgram Initialize (অফিসিয়াল পদ্ধতি)
+        const AdController = window.Adsgram.init({ blockId: "22538" });
 
-    function updateUI() {
-        document.getElementById('score').textContent = '$ ' + state.coins.toLocaleString();
-        document.getElementById('inventory').textContent = Math.floor(state.inventory);
-        document.getElementById('inventory-fill').style.width = (state.inventory / state.maxInventory) * 100 + '%';
-        localStorage.setItem('coins', state.coins);
-    }
+        function updateUI() {
+            document.getElementById('score-display').innerText = '$ ' + coins.toLocaleString();
+            localStorage.setItem('coins', coins);
+        }
 
-    // ট্যাপ ট্যাপ সিস্টেম (Mine)
-    document.getElementById('coin-img').addEventListener('click', (e) => {
-        if (state.inventory >= 1) {
-            state.coins += 1;
-            state.inventory -= 1;
-            
-            // ক্লিক অ্যানিমেশন
-            e.target.classList.add('shake');
-            setTimeout(() => e.target.classList.remove('shake'), 100);
-            
+        // ট্যাপ লজিক
+        document.getElementById('coin-img').onclick = () => {
+            coins += 1;
             updateUI();
-        } else {
-            showSnackbar("No energy left!");
-        }
-    });
+        };
 
-    // ভিডিও অ্যাড দেখার ফাংশন
-    document.getElementById('video-ad-btn').addEventListener('click', async () => {
-        if (!AdController) {
-            showSnackbar("Ad provider not ready. Check VPN/Internet.");
-            return;
-        }
-        try {
+        // ভিডিও অ্যাড লজিক (অফিসিয়াল হ্যান্ডলার)
+        const adButton = document.getElementById('ad-button');
+        adButton.addEventListener('click', () => {
             showSnackbar("Loading Ad...");
-            const result = await AdController.show();
-            state.coins += 5000;
-            updateUI();
-            showSnackbar("Success! +5,000 Coins.");
-        } catch (error) {
-            showSnackbar("No ads available right now.");
+            AdController.show().then((result) => {
+                // সফলভাবে ভিডিও দেখলে
+                coins += 5000;
+                updateUI();
+                showSnackbar("Success! +5,000 Coins Received.");
+            }).catch((result) => {
+                // ভিডিও লোড না হলে বা এরর দিলে
+                showSnackbar("Ad not ready or skipped.");
+                console.error(result);
+            });
+        });
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
         }
-    });
 
-    function switchPage(pageId) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-    }
-
-    function showSnackbar(msg) {
-        const s = document.getElementById('snackbar');
-        s.textContent = msg;
-        s.classList.add('show');
-        setTimeout(() => s.classList.remove('show'), 3000);
-    }
-
-    // এনার্জি রিফিল
-    setInterval(() => {
-        if (state.inventory < state.maxInventory) {
-            state.inventory += 1;
-            updateUI();
+        function showSnackbar(msg) {
+            const s = document.getElementById('snackbar');
+            s.innerText = msg;
+            s.classList.add('show');
+            setTimeout(() => s.classList.remove('show'), 3000);
         }
-    }, 1500);
 
-    updateUI();
-</script>
+        updateUI();
+    </script>
 </body>
 </html>
