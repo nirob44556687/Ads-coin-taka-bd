@@ -33,17 +33,8 @@
                         <img src="https://html4herosimages.vercel.app/User%20Avatar.png" width="40px" height="40px" alt="User Avatar" class="rounded-full mr-2">
                         <span id="userName">Bota</span>
                     </div>
-                    <button onclick="showSnackbar('Coming Soon!')" class="bg-slate-900/10 hover:bg-slate-900/20 p-2 rounded-full flex justify-between items-center">
-                        <span class="font-bold text-lg px-2">2X Coins</span>
-                    </button>
                 </div>
 
-                <div class="flex justify-between items-center bg-slate-900/10 hover:bg-slate-900/20 p-2 rounded-3xl shadow-lg">
-                    <a href="#" target="_blank" class="flex-1 items-center p-2 text-center">
-                        <span>Join Community</span>
-                    </a>
-                </div>
-                
                 <div class="flex-grow flex flex-col justify-center">
                     <div class="text-center mb-4 mt-8">
                         <div class="text-4xl mb-2 flex justify-center items-center">
@@ -57,34 +48,30 @@
                     </div>
                 </div>
 
-                <div>
-                    <div class="flex justify-between items-center mb-2 px-2">
+                <div class="mb-4">
+                    <div class="flex justify-between items-center mb-2 px-2 text-sm">
                         <div class="flex items-center">
-                            <img src="https://html4herosimages.vercel.app/Energy%20Icon.png" alt="Energy" class="mr-2 w-6 h-6">
-                            <div class="flex justify-between items-center text-sm">
-                                <span id="inventory">500</span><span> / </span><span id="max-inventory">500</span>
-                            </div>
+                            <img src="https://html4herosimages.vercel.app/Energy%20Icon.png" class="mr-2 w-6 h-6">
+                            <span id="inventory">500</span> / <span id="max-inventory">500</span>
                         </div>
                     </div>
-                    <div class="bg-zinc-600 rounded-3xl h-2 w-full mx-auto shadow-inner mb-4">
+                    <div class="bg-zinc-600 rounded-3xl h-2 w-full">
                         <div id="inventory-fill" class="bg-gradient-to-r from-[#C7913D] to-[#F1D06E] h-2 rounded-3xl" style="width: 100%;"></div>
                     </div>
                 </div>
 
-                <div class="flex justify-between items-center bg-slate-900 p-3 rounded-3xl shadow-lg mt-auto">
-                    <button class="nav-item flex-1 flex flex-col items-center" data-page="main-page">🏠<span class="text-xs">Mine</span></button>
-                    <button class="nav-item flex-1 flex flex-col items-center" data-page="boost-page">🚀<span class="text-xs">Boost</span></button>
-                    <button class="nav-item flex-1 flex flex-col items-center" data-page="friends-page">👥<span class="text-xs">Friends</span></button>
-                    <button class="nav-item flex-1 flex flex-col items-center" data-page="task-page">📋<span class="text-xs">Task</span></button>
-                    <button class="nav-item flex-1 flex flex-col items-center" data-page="wallet-page">💰<span class="text-xs">Wallet</span></button>
+                <div class="flex justify-around bg-slate-900 p-4 rounded-3xl shadow-lg mt-auto">
+                    <button onclick="switchPage('main-page')" class="flex flex-col items-center">🏠<span class="text-xs">Mine</span></button>
+                    <button onclick="switchPage('boost-page')" class="flex flex-col items-center">🚀<span class="text-xs">Boost</span></button>
+                    <button onclick="switchPage('task-page')" class="flex flex-col items-center">📋<span class="text-xs">Task</span></button>
+                    <button onclick="switchPage('wallet-page')" class="flex flex-col items-center">💰<span class="text-xs">Wallet</span></button>
                 </div>
             </div>
         </div>
 
-        <div id="boost-page" class="page bg-[#0f0c29] text-white p-6">
-            <h2 class="text-2xl font-bold mb-6 text-center">Boosters</h2>
-            
-            <div id="video-ad-btn" class="bg-gradient-to-r from-yellow-600 to-yellow-800 p-5 rounded-2xl flex justify-between items-center shadow-lg border border-yellow-500 cursor-pointer mb-6">
+        <div id="boost-page" class="page bg-[#0f0c29] text-white p-6 items-center">
+            <h2 class="text-2xl font-bold mb-8">Boosters</h2>
+            <div id="video-ad-btn" class="w-full bg-gradient-to-r from-yellow-600 to-yellow-800 p-5 rounded-2xl flex justify-between items-center shadow-lg cursor-pointer border border-yellow-500 mb-6">
                 <div class="flex items-center gap-3">
                     <span class="text-2xl">📺</span>
                     <div class="text-left">
@@ -94,35 +81,24 @@
                 </div>
                 <span class="bg-white text-black text-xs font-bold px-2 py-1 rounded">FREE</span>
             </div>
-
-            <h3 class="font-bold text-lg mb-4">Other Boosters</h3>
-            <div class="space-y-3">
-                <div class="bg-slate-800 p-4 rounded-xl flex justify-between opacity-50">
-                    <span>Multitap</span>
-                    <span>Level 1</span>
-                </div>
-            </div>
-
-            <button onclick="switchPage('main-page')" class="mt-auto bg-slate-800 px-8 py-3 rounded-full self-center">Back</button>
+            <button onclick="switchPage('main-page')" class="mt-auto bg-slate-800 px-10 py-3 rounded-full">Back</button>
         </div>
 
-        <div id="friends-page" class="page bg-[#0f0c29] text-white p-6 items-center justify-center"><h2>Friends Page</h2><button onclick="switchPage('main-page')" class="mt-4 bg-slate-800 px-6 py-2 rounded-full">Back</button></div>
-        <div id="task-page" class="page bg-[#0f0c29] text-white p-6 items-center justify-center"><h2>Tasks Page</h2><button onclick="switchPage('main-page')" class="mt-4 bg-slate-800 px-6 py-2 rounded-full">Back</button></div>
-        <div id="wallet-page" class="page bg-[#0f0c29] text-white p-6 items-center justify-center"><h2>Wallet Page</h2><button onclick="switchPage('main-page')" class="mt-4 bg-slate-800 px-6 py-2 rounded-full">Back</button></div>
+        <div id="task-page" class="page bg-[#0f0c29] text-white p-6 flex items-center justify-center"><h2>Tasks Coming Soon</h2><button onclick="switchPage('main-page')" class="mt-4 bg-slate-800 px-6 py-2 rounded-full">Back</button></div>
+        <div id="wallet-page" class="page bg-[#0f0c29] text-white p-6 flex items-center justify-center"><h2>Wallet Coming Soon</h2><button onclick="switchPage('main-page')" class="mt-4 bg-slate-800 px-6 py-2 rounded-full">Back</button></div>
     </div>
     
     <div id="snackbar"></div>
 
 <script>
-    // --- গেম স্টেট ও ডাটা ---
+    // --- গেম লজিক ---
     let state = {
         coins: parseInt(localStorage.getItem('coins')) || 0,
         inventory: 500,
         maxInventory: 500
     };
 
-    // --- Adsgram Initialization ---
-    // আপনার আইডি 22538 ব্যবহার করা হয়েছে
+    // Adsgram Initialize (ID: 22538)
     const AdController = window.Adsgram ? window.Adsgram.init({ blockId: "22538" }) : null;
 
     function updateUI() {
@@ -132,24 +108,19 @@
         localStorage.setItem('coins', state.coins);
     }
 
-    // ট্যাপ ইভেন্ট (Mine)
+    // ট্যাপ ট্যাপ সিস্টেম (Mine)
     document.getElementById('coin-img').addEventListener('click', (e) => {
         if (state.inventory >= 1) {
             state.coins += 1;
             state.inventory -= 1;
             
-            // ক্লিক ইফেক্ট
-            const scoreDisplay = document.createElement('div');
-            scoreDisplay.textContent = "+1";
-            scoreDisplay.className = 'score-display';
-            scoreDisplay.style.left = e.clientX + 'px';
-            scoreDisplay.style.top = e.clientY + 'px';
-            document.body.appendChild(scoreDisplay);
-            setTimeout(() => scoreDisplay.remove(), 1000);
-
+            // ক্লিক অ্যানিমেশন
+            e.target.classList.add('shake');
+            setTimeout(() => e.target.classList.remove('shake'), 100);
+            
             updateUI();
         } else {
-            showSnackbar("Not enough energy!");
+            showSnackbar("No energy left!");
         }
     });
 
@@ -159,30 +130,22 @@
             showSnackbar("Ad provider not ready. Check VPN/Internet.");
             return;
         }
-
         try {
             showSnackbar("Loading Ad...");
             const result = await AdController.show();
-            // অ্যাড দেখা শেষ হলে রিওয়ার্ড
             state.coins += 5000;
             updateUI();
-            showSnackbar("Success! +5,000 Coins added.");
+            showSnackbar("Success! +5,000 Coins.");
         } catch (error) {
-            showSnackbar("No Ads available or skipped.");
+            showSnackbar("No ads available right now.");
         }
     });
 
-    // পেজ সুইচিং ফাংশন
-    function switchPage(id) {
+    function switchPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
+        document.getElementById(pageId).classList.add('active');
     }
 
-    document.querySelectorAll('.nav-item').forEach(btn => {
-        btn.addEventListener('click', () => switchPage(btn.getAttribute('data-page')));
-    });
-
-    // মেসেজ দেখানোর ফাংশন
     function showSnackbar(msg) {
         const s = document.getElementById('snackbar');
         s.textContent = msg;
