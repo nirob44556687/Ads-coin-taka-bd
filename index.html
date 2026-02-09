@@ -79,30 +79,29 @@
     <div id="snackbar"></div>
 
     <script>
-        // গেম স্টেট ডাটা
         let state = {
             coins: parseInt(localStorage.getItem('coins')) || 0,
             energy: 500,
             maxEnergy: 500
         };
 
-        // Adsgram Initialization (ID: 22538)
+        // Adsgram Initialization (Official Block ID: 22538)
         const AdController = window.Adsgram ? window.Adsgram.init({ blockId: "22538" }) : null;
 
         function updateUI() {
             document.getElementById('score-val').innerText = '$ ' + state.coins.toLocaleString();
-            document.getElementById('energy-stat').innerText = `${state.energy} / ${state.maxEnergy}`;
+            document.getElementById('energy-stat').innerText = `${Math.floor(state.energy)} / ${state.maxEnergy}`;
             document.getElementById('energy-bar').style.width = (state.energy / state.maxEnergy) * 100 + '%';
             localStorage.setItem('coins', state.coins);
         }
 
-        // ট্যাপ ট্যাপ লজিক
+        // Tap Logic
         document.getElementById('main-coin').addEventListener('click', (e) => {
             if (state.energy >= 1) {
                 state.coins += 1;
                 state.energy -= 1;
                 
-                // ভাসমান +1 ইফেক্ট
+                // Floating Animation
                 const plusOne = document.createElement('div');
                 plusOne.textContent = "+1";
                 plusOne.className = 'score-display';
@@ -117,23 +116,20 @@
             }
         });
 
-        // অফিসিয়াল Adsgram ভিডিও লোড লজিক
+        // Official Adsgram Ad Show Logic
         document.getElementById('watch-ad-btn').addEventListener('click', () => {
             if (!AdController) {
-                showSnackbar("Ad provider not ready. Check VPN/Internet.");
+                showSnackbar("Ad provider not ready.");
                 return;
             }
 
             showSnackbar("Loading Ad...");
             AdController.show().then((result) => {
-                // ভিডিও দেখা শেষ হলে রিওয়ার্ড
                 state.coins += 5000;
                 updateUI();
                 showSnackbar("Success! +5,000 Coins added.");
             }).catch((err) => {
-                // এরর হ্যান্ডলিং (যেমন VPN থাকলে বা অ্যাড না থাকলে)
                 showSnackbar("Ad failed: " + (err.error || "No ads available"));
-                console.log(err);
             });
         });
 
@@ -149,7 +145,7 @@
             setTimeout(() => s.classList.remove('show'), 3000);
         }
 
-        // অটো এনার্জি রিফিল
+        // Energy Refill
         setInterval(() => {
             if (state.energy < state.maxEnergy) {
                 state.energy += 1;
